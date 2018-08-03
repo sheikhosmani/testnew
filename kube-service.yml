@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: testnew
+  labels:
+    app: testnew
+  namespace: default
+spec:
+  ports:
+  - port: 9081
+    protocol: TCP
+    targetPort: 9081
+  selector:
+    app: testnew

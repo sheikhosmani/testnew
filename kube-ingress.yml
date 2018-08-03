@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: testnew
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - testnew.sloppytiger.com
+    secretName: tls-secret
+  rules:
+  - host: testnew.sloppytiger.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: testnew
+          servicePort: 9081
+      - path: /*
+        backend:
+          serviceName: testnew
+          servicePort: 9081

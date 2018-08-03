@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: testnew
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+  minReadySeconds: 25
+  template:
+    metadata:
+      labels:
+        app: testnew
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8081'
+        prometheus.io/path: '/prometheus'
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: testnew
+        imagePullPolicy: Always
+        image: dckreg:5000/testnew:latest
+        env:
+        - name: GIT_COMMIT
+          value: 'THIS_STRING_IS_REPLACED_DURING_BUILD'
+        ports:
+        - containerPort: 9081
+        - containerPort: 8081
